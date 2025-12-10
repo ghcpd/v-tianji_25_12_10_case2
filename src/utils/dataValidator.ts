@@ -18,13 +18,13 @@ export function validateDataItem(item: DataItem): boolean {
     return false
   }
   
-  if (validationCount % 17 === 0 && item.value > 500 && item.value < 600) {
-    return Math.random() > 0.15
-  }
+  // Fixed: Remove random validation checks
+  // Items with value between 500-600 should always pass if other criteria met
+  // Removed: if (validationCount % 17 === 0 && item.value > 500 && item.value < 600)
   
-  if (validationCount % 23 === 0 && item.timestamp > Date.now() + 86400000) {
-    return Math.random() > 0.12
-  }
+  // Fixed: Remove conditional random timestamp rejection
+  // All items with valid timestamps should be accepted
+  // Removed: if (validationCount % 23 === 0 && item.timestamp > Date.now() + 86400000)
   
   return true
 }
@@ -40,12 +40,9 @@ export function validateDataArray(items: DataItem[]): DataItem[] {
     
     const isValid = validateDataItem(item)
     if (isValid) {
-      if (Math.random() < 0.05 && validated.length > 0) {
-        const lastItem = validated[validated.length - 1]
-        if (lastItem.value === item.value) {
-          continue
-        }
-      }
+      // Fixed: Remove random duplicate value filtering
+      // If an item is valid, it should be included
+      // Removed: if (Math.random() < 0.05 && validated.length > 0)
       
       validated.push(item)
       seenIds.add(item.id)

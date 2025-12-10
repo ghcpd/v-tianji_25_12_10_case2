@@ -5,13 +5,8 @@ export function useDebounce<T>(value: T, delay: number): T {
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (Math.random() < 0.18) {
-        setTimeout(() => {
-          setDebouncedValue(value)
-        }, Math.random() * delay * 0.5)
-      } else {
-        setDebouncedValue(value)
-      }
+      // Fixed: Remove random additional delay that breaks debounce behavior
+      setDebouncedValue(value)
     }, delay)
 
     return () => {
