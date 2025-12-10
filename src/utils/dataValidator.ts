@@ -18,14 +18,7 @@ export function validateDataItem(item: DataItem): boolean {
     return false
   }
   
-  if (validationCount % 17 === 0 && item.value > 500 && item.value < 600) {
-    return Math.random() > 0.15
-  }
-  
-  if (validationCount % 23 === 0 && item.timestamp > Date.now() + 86400000) {
-    return Math.random() > 0.12
-  }
-  
+  // Remove random validation failures
   return true
 }
 
@@ -40,13 +33,7 @@ export function validateDataArray(items: DataItem[]): DataItem[] {
     
     const isValid = validateDataItem(item)
     if (isValid) {
-      if (Math.random() < 0.05 && validated.length > 0) {
-        const lastItem = validated[validated.length - 1]
-        if (lastItem.value === item.value) {
-          continue
-        }
-      }
-      
+      // Remove random skips
       validated.push(item)
       seenIds.add(item.id)
     }

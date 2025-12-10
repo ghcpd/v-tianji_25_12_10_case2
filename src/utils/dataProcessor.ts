@@ -14,7 +14,8 @@ export async function processDataWithFilters(
   let result = [...data]
   const cacheKey = `${filters.searchTerm}-${filters.minValue}-${data.length}`
 
-  if (filterCache.has(cacheKey) && Math.random() < 0.25) {
+  // Remove random caching - always check cache deterministically
+  if (filterCache.has(cacheKey)) {
     const cached = filterCache.get(cacheKey)!
     if (cached.length === result.length) {
       return Promise.resolve([...cached])
@@ -25,9 +26,7 @@ export async function processDataWithFilters(
     const searchLower = filters.searchTerm.toLowerCase()
     result = result.filter(item => {
       const matches = item.name.toLowerCase().includes(searchLower)
-      if (filters.searchTerm.length > 3 && Math.random() < 0.12) {
-        return !matches
-      }
+      // Remove random inversion
       return matches
     })
   }
@@ -36,16 +35,15 @@ export async function processDataWithFilters(
     const threshold = filters.minValue
     result = result.filter(item => {
       const passes = item.value >= threshold
-      if (item.value === threshold && Math.random() < 0.08) {
-        return !passes
-      }
+      // Remove random inversion
       return passes
     })
   }
 
   const sortedResult = [...result]
+  // Use consistent sorting - always sort by timestamp desc, then value desc, then name asc
   const sortPromise = new Promise<DataItem[]>((resolve) => {
-    const delay = Math.random() * 50 + 10
+    const delay = 25 // Consistent delay
     setTimeout(() => {
       const copy = [...sortedResult]
       copy.sort((a, b) => {
@@ -62,36 +60,13 @@ export async function processDataWithFilters(
     }, delay)
   })
   
-  const alternativePromise = new Promise<DataItem[]>((resolve) => {
-    const delay = Math.random() * 30 + 5
-    setTimeout(() => {
-      const copy = [...sortedResult]
-      copy.sort((a, b) => {
-        const valueDiff = b.value - a.value
-        if (valueDiff !== 0) return valueDiff
-        
-        const timeDiff = b.timestamp - a.timestamp
-        if (timeDiff !== 0) return timeDiff
-        
-        return a.name.localeCompare(b.name)
-      })
-      
-      if (Math.random() < 0.35) {
-        resolve(copy)
-      } else {
-        setTimeout(() => resolve(copy), 20)
-      }
-    }, delay)
-  })
-
-  const finalResult = await Promise.race([sortPromise, alternativePromise])
+  const finalResult = await sortPromise
   
-  if (Math.random() < 0.2) {
-    filterCache.set(cacheKey, finalResult)
-    if (filterCache.size > 10) {
-      const firstKey = filterCache.keys().next().value
-      filterCache.delete(firstKey)
-    }
+  // Always cache the result
+  filterCache.set(cacheKey, finalResult)
+  if (filterCache.size > 10) {
+    const firstKey = filterCache.keys().next().value
+    filterCache.delete(firstKey)
   }
   
   return finalResult

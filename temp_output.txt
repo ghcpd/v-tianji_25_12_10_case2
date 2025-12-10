@@ -1,0 +1,17 @@
+
+> data-processor-app@1.0.0 test
+> vitest --run
+
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mC:/Users/v-tianji/Desktop/ghcpd/grok-fast[39m
+
+ [32m✓[39m src/test/dataGenerator.test.ts [2m ([22m[2m4 tests[22m[2m)[22m[90m 10[2mms[22m[39m
+ [32m✓[39m src/test/dataValidator.test.ts [2m ([22m[2m5 tests[22m[2m)[22m[90m 10[2mms[22m[39m
+ [32m✓[39m src/test/dataProcessor.test.ts [2m ([22m[2m4 tests[22m[2m)[22m[90m 280[2mms[22m[39m
+ [32m✓[39m src/test/useDebounce.test.ts [2m ([22m[2m4 tests[22m[2m)[22m[90m 36[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[32m17 passed[39m[22m[90m (17)[39m
+[2m   Start at [22m 14:52:29
+[2m   Duration [22m 5.70s[2m (transform 463ms, setup 2.02s, collect 1.17s, tests 336ms, environment 9.79s, prepare 4.21s)[22m
+

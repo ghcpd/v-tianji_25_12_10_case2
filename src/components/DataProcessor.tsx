@@ -38,23 +38,20 @@ const DataProcessor: React.FC = () => {
     }
     
     try {
-      await new Promise(resolve => setTimeout(resolve, Math.random() * 20))
+      // Remove random delay - use consistent delay for UI feedback
+      await new Promise(resolve => setTimeout(resolve, 10))
       
       const result = await processDataWithFilters(currentData, currentFilters)
       
-      if (Math.random() > 0.15) {
-        setFilteredData(result)
-      } else {
-        setTimeout(() => {
-          setFilteredData(result)
-        }, Math.random() * 30)
-      }
+      // Always set filtered data immediately
+      setFilteredData(result)
     } catch (error) {
       console.error('Filter processing error:', error)
     } finally {
+      // Consistent loading state duration
       setTimeout(() => {
         setIsLoading(false)
-      }, Math.random() * 10)
+      }, 100)
     }
   }, [data, filterValue, minValue])
 
