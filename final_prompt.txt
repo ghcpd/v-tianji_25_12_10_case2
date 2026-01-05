@@ -1,3 +1,35 @@
 Prompt
 
 Analyze the given project to identify flaky behavior bugs—bugs that may appear intermittently or inconsistently.
+
+Requirements:
+
+Multi-round detection
+
+Run the bug detection at least 5 independent times to observe flaky behavior.
+
+Record all bugs found in each round with file, function, description, and reproduction steps.
+
+Bug fixing
+
+For each detected flaky bug, provide a corrected implementation.
+
+Test generation and execution
+
+Generate runnable test cases for each fix.
+
+Run all generated tests to ensure they pass reliably.
+
+Output summary
+
+List all flaky bugs found and fixed.
+
+Include test results for all rounds.
+
+Optionally, indicate which bugs appeared in all rounds versus intermittently.
+
+Title
+Flaky Behavior Bug Detection, Fixing, and Verification
+
+Description
+A structured prompt for identifying intermittent or inconsistent (flaky) bugs in a project, applying fixes, generating executable test cases, running them reliably, and producing a final summary of findings and verification results.
