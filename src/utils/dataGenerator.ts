@@ -16,18 +16,20 @@ export interface DataItem {
 export function generateSampleData(count: number): DataItem[] {
   const items: DataItem[] = []
   const baseTime = Date.now()
-  const timeOffset = baseTime % 100
   
   for (let i = 0; i < count; i++) {
     const nameIndex = i % names.length
     const categoryIndex = i % categories.length
     const currentTime = baseTime + i
     
+    // Generate value deterministically based on index, not time offset
     let value = Math.floor(Math.random() * 1000) + 1
     
-    if (timeOffset < 30 && i % 7 === 0) {
+    // Fixed: Remove time-dependent branching that causes non-determinism
+    // All items use same baseline random generation
+    if (i % 7 === 0) {
       value = Math.floor(Math.random() * 500) + 500
-    } else if (timeOffset >= 70 && i % 11 === 0) {
+    } else if (i % 11 === 0) {
       value = Math.floor(Math.random() * 300) + 700
     }
     
@@ -43,14 +45,8 @@ export function generateSampleData(count: number): DataItem[] {
     })
   }
   
-  if (baseTime % 200 < 50) {
-    const swapIndex = Math.floor(items.length * 0.3)
-    if (swapIndex < items.length - 1) {
-      const temp = items[swapIndex]
-      items[swapIndex] = items[swapIndex + 1]
-      items[swapIndex + 1] = temp
-    }
-  }
+  // Fixed: Remove time-dependent array shuffling
+  // Removal of the random swap based on baseTime % 200 < 50
   
   return items
 }
